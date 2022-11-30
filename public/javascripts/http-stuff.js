@@ -4,6 +4,16 @@
 
     function getStuff() {
         console.log("The GET method requests a representation of the specified resource. Requests using GET should only retrieve data.");
+        const url = 'http://localhost:8080';
+        const options = {
+            method: 'GET'
+        };
+        return fetch(url, options)
+            .then((response) => response.json())
+            .then((data) => {
+                displayArea.innerHTML += "\nGET returned " + data.quote;
+            })
+            .catch((e) => console.log("There was an error with the GET request:\n" + e));
     }
 
     function headStuff() {
@@ -12,6 +22,16 @@
 
     function postStuff() {
         console.log(" The POST method submits an entity to the specified resource, often causing a change in state or side effects on the server.")
+        const url = 'http://localhost:8080';
+        const options = {
+            method: 'POST'
+        };
+        return fetch(url, options)
+            .then((response) => response.json())
+            .then((data) => {
+                displayArea.innerHTML += "\nPOST returned '" + data.quote + "'";
+            })
+            .catch((e) => console.log("There was an error with the POST request:\n" + e));
     }
 
     function putStuff() {
