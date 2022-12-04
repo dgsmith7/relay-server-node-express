@@ -1,21 +1,15 @@
 "use strict";
 
 (function () {
-
-//    const createError = require('http-errors');
     const express = require('express');
     const path = require('path');
-//    const cookieParser = require('cookie-parser');
-//    const logger = require('morgan');
-
-//    const indexRouter = require('./routes/index');
-//    const usersRouter = require('./routes/users');
-
+    const bodyParser = require('body-parser');
     const app = express();
     let port = 8080;
 
+    app.use(bodyParser.json());
+
     const someData = {quote: "Everything good is wild and free."};
-//    app.use(express.json(someData));
     app.use(express.static(path.join(__dirname, 'public')));
 
     // app.get('/', function (req, res) {
@@ -23,7 +17,16 @@
     //         res.sendFile(path.join(__dirname,'/index.html'));
     // });
     app.get('/', (req, res) => res.send(someData));
-    app.post('/', (req, res) => res.send(someData));
+    app.post('/', (req, res) => {
+        console.log("The req body as per server", req.body);
+        if (req.body.info === 'data') {
+            console.log("yes data");
+            res.send(JSON.stringify(someData));
+        } else {
+            console.log('no data');
+            res.send(JSON.stringify({quote: 'This will call the API behind the scenes and you can do different things based on body of the request.'}));
+        }
+    });
 
     app.listen(port, function () {
         console.log(`Listening on port ${port}!`);

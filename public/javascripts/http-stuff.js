@@ -24,11 +24,16 @@
         console.log(" The POST method submits an entity to the specified resource, often causing a change in state or side effects on the server.")
         const url = 'http://localhost:8080';
         const options = {
-            method: 'POST'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({info: 'data'})
         };
         return fetch(url, options)
             .then((response) => response.json())
             .then((data) => {
+                console.log("Data from backend", data);
                 displayArea.innerHTML += "\nPOST returned '" + data.quote + "'";
             })
             .catch((e) => console.log("There was an error with the POST request:\n" + e));
