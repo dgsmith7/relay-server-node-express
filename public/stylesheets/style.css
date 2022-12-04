@@ -1,8 +1,20 @@
+html {
+  background-color: #0f0f23;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #99ff99;
+  text-shadow: 0 0 2px #00cc00, 0 0 5px #00cc00;
 }
 
-a {
-  color: #00B7FF;
+button {
+  background-color: #0f0f23;
+  color: #00cc00;
+  text-shadow: 0 0 2px #00cc00, 0 0 5px #00cc00;
+}
+
+button:hover {
+  color: #99ff99;
 }
