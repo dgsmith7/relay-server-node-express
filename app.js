@@ -1,6 +1,8 @@
 "use strict";
 
 (function () {
+    require('dotenv').config();
+    //console.log(`${process.env.OPEN_WX_MAP_KEY}`);
     const express = require('express');
     const path = require('path');
     const bodyParser = require('body-parser');
@@ -13,7 +15,7 @@
     app.use(express.static(path.join(__dirname, 'public')));
 
     // Some JSON object to be sent back to a request
-    const someData = {quote: "Everything good is wild and free."};
+    let someData = {quote: 'Free your mind and your ass will follow!'};
 
     // This reacts to POST requests.  And here I am doing different things based on the
     // body of the post request sent.  This will allow me to, for example, make an API
@@ -22,15 +24,42 @@
     app.post('/', (req, res) => {
         console.log("The req body as per server", req.body);
         if (req.body.info === 'data') {
+            someData = {quote: "Everything good is wild and free."}
             res.send(JSON.stringify(someData));
         } else {
-            res.send(JSON.stringify({quote: 'This will call the API behind the scenes and you can do different things based on body of the request.'}));
+             let url = "https://api.themoviedb.org/3/search/movie?api_key="+process.env.TMDB_KEY+"&query='Fame'&language=en-US&page=1&include_adult=false";
+
+             fetch(url, {method: 'GET',})
+                .then((result) => result.json())
+                .then((result) => {
+                    res.send(JSON.stringify(result));
+                })
+                .catch((e) => {
+//                alert("There was an error getting local conditions! Check the console for details");
+                console.log("There was an error - Error object: " + e);
+            });
+
         }
     });
 
     app.listen(port, function () {
         console.log(`Listening on port ${port}!`);
     });
+
+    function getLocalWxData() {  // use ajax to get data from api
+        let url = `https://api.openweathermap.org/data/2.5/weather?lat=32.88&lon=96.71&units=imperial&appid=${process.env.OPEN_WX_MAP_KEY}`
+        $.get(url).done(function (data) {// once we have lat lon from zip code get the local area name
+            //someData = data;  // assign file contents to global variable
+            return data;
+    //        lookUpLocationNameByLatLon(location.lat, location.lon);  // now get local name
+        }).fail(function (jqXhr, status, error) {
+            alert("There was an error getting local conditions! Check the console for details");
+            console.log("Response status: " + status);
+            console.log("Error object: " + error);
+            return error;
+        });
+    }
+
 
     module.exports = app;
 }());

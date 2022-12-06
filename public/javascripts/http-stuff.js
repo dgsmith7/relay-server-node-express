@@ -18,13 +18,13 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({info: 'data'}) // try changing this to something besides 'data'
+            body: JSON.stringify({info: 'nodata'}) // try changing this to something besides 'data'
         };
         return fetch(url, options)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Data from backend", data);
-                displayArea.innerHTML += "\nPOST returned '" + data.quote + "'";
+                displayArea.innerHTML += "\nPOST returned '" + JSON.stringify(data) + "'";
             })
             .catch((e) => console.log("There was an error with the POST request:\n" + e));
     }

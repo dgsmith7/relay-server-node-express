@@ -14,4 +14,4 @@ out/*
 # other
 /node_modules/
 /public/.env
-/public/.env
+.env
